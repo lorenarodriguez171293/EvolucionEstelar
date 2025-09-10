@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Evolución Estelar Interactiva</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      background: linear-gradient(to bottom, #001f3f, #0074D9);
+      color: white;
+      margin: 0;
+      padding: 20px;
+    }
+    h2 {
+      margin-bottom: 10px;
+    }
+    #sol {
+      font-size: 100px;
+      cursor: pointer;
+      margin: 30px 0;
+      transition: transform 0.2s;
+    }
+    #sol:active {
+      transform: scale(1.2);
+    }
+    #caracteristica {
+      margin-top: 20px;
+      padding: 15px;
+      font-size: 20px;
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 12px;
+      min-height: 60px;
+    }
+    #reset {
+      margin-top: 20px;
+      padding: 10px 20px;
+      font-size: 18px;
+      border: none;
+      border-radius: 8px;
+      background: orange;
+      color: black;
+      cursor: pointer;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <h2>Evolución Estelar</h2>
+  <p>Tocá el Sol para descubrir características de cada etapa</p>
+
+  <div id="sol">🌞</div>
+
+  <div id="caracteristica"></div>
+  <button id="reset" onclick="reiniciar()">Reiniciar</button>
+
+  <script>
+    const caracteristicas = [
+      // Nebulosa (5)
+      "Una nebulosa es una nube gigante de gas y polvo en el espacio.",
+      "En la nebulosa predomina el hidrógeno, el elemento más abundante del universo.",
+      "La gravedad hace que partes de la nebulosa se junten formando grumos.",
+      "Las nebulosas pueden ser el lugar de nacimiento de nuevas estrellas.",
+      "Algunas nebulosas brillan porque están cerca de estrellas calientes.",
+      
+      // Estrella similar al Sol (5)
+      "Una estrella como el Sol obtiene su energía por fusión nuclear de hidrógeno en helio.",
+      "La luz y el calor que recibimos en la Tierra vienen de este proceso de fusión.",
+      "El Sol está en una etapa estable llamada secuencia principal.",
+      "Las estrellas como el Sol tienen un equilibrio entre gravedad y presión del gas caliente.",
+      "Una estrella como el Sol puede vivir miles de millones de años en esta etapa.",
+      
+      // Gigante roja (5)
+      "Cuando se acaba el hidrógeno en el centro, la estrella se expande y se vuelve gigante roja.",
+      "En esta etapa, el diámetro de la estrella aumenta muchísimo.",
+      "La superficie de la gigante roja es más fría y por eso brilla de color rojizo.",
+      "En su interior comienza la fusión de helio y otros elementos más pesados.",
+      "Nuestro Sol en unos 5.000 millones de años será una gigante roja.",
+      
+      // Nebulosa planetaria (4)
+      "Al final de la etapa de gigante roja, la estrella expulsa sus capas externas.",
+      "Ese gas expulsado forma una nube brillante llamada nebulosa planetaria.",
+      "A pesar del nombre, no tiene nada que ver con planetas.",
+      "Las nebulosas planetarias enriquecen el espacio con nuevos elementos químicos.",
+      
+      // Enana blanca (5)
+      "Lo que queda del centro de la estrella es una enana blanca.",
+      "Las enanas blancas son muy densas: una cucharadita de su materia pesa toneladas.",
+      "No tienen fusión nuclear, brillan por el calor que les queda.",
+      "Con el tiempo se enfrían y se vuelven más débiles.",
+      "El destino final del Sol es convertirse en una enana blanca."
+    ];
+
+    let disponibles = [...caracteristicas];
+
+    const sol = document.getElementById("sol");
+    const salida = document.getElementById("caracteristica");
+    const resetBtn = document.getElementById("reset");
+
+    sol.addEventListener("click", () => {
+      if (disponibles.length > 0) {
+        const i = Math.floor(Math.random() * disponibles.length);
+        const frase = disponibles.splice(i, 1)[0];
+        salida.textContent = frase;
+      } else {
+        salida.textContent = "¡Ya descubriste todas las características!";
+        resetBtn.style.display = "inline-block";
+      }
+    });
+
+    function reiniciar() {
+      disponibles = [...caracteristicas];
+      salida.textContent = "";
+      resetBtn.style.display = "none";
+    }
+  </script>
+</body>
+</html>
