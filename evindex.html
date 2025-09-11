@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Evolución Estelar Interactiva</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      background: linear-gradient(to bottom, #001f3f, #0074D9);
+      color: white;
+      margin: 0;
+      padding: 20px;
+    }
+    h2 {
+      margin-bottom: 5px;
+    }
+    #sol {
+      font-size: 90px;
+      cursor: pointer;
+      margin: 20px 0;
+      transition: transform 0.2s;
+    }
+    #sol:active {
+      transform: scale(1.2);
+    }
+    #caracteristica {
+      margin-top: 20px;
+      padding: 15px;
+      font-size: 18px;
+      border-radius: 12px;
+      min-height: 80px;
+      opacity: 0;
+      transform: scale(0.9);
+      transition: all 0.5s ease;
+    }
+    #caracteristica.mostrar {
+      opacity: 1;
+      transform: scale(1);
+    }
+    #icono {
+      font-size: 35px;
+      margin-bottom: 8px;
+    }
+    #texto {
+      margin-top: 5px;
+    }
+    #contador {
+      margin-top: 10px;
+      font-size: 16px;
+    }
+    #reset {
+      margin-top: 20px;
+      padding: 12px 20px;
+      font-size: 18px;
+      border: none;
+      border-radius: 8px;
+      background: orange;
+      color: black;
+      cursor: pointer;
+      display: none;
+    }
+
+    /* Colores por etapa */
+    .Nebulosa { background: rgba(138, 43, 226, 0.3); border: 2px solid violet; }
+    .Sol { background: rgba(255, 215, 0, 0.3); border: 2px solid gold; }
+    .Gigante { background: rgba(255, 69, 0, 0.3); border: 2px solid tomato; }
+    .Planetaria { background: rgba(0, 255, 127, 0.3); border: 2px solid lightgreen; }
+    .Enana { background: rgba(135, 206, 250, 0.3); border: 2px solid lightblue; }
+
+    /* Adaptación para celulares */
+    @media (max-width: 600px) {
+      #sol {
+        font-size: 70px;
+      }
+      #caracteristica {
+        font-size: 16px;
+        padding: 12px;
+      }
+      #reset {
+        font-size: 16px;
+        padding: 10px 16px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <h2>Evolución Estelar</h2>
+  <p>Tocá el Sol para descubrir características</p>
+
+  <div id="sol">🌞</div>
+
+  <div id="caracteristica">
+    <div id="icono"></div>
+    <div id="texto"></div>
+  </div>
+
+  <div id="contador"></div>
+  <button id="reset" onclick="reiniciar()">Reiniciar</button>
+
+  <script>
+    const caracteristicas = [
+      { etapa: "Nebulosa", icono: "🌌", texto: "Una nebulosa es una nube gigante de gas y polvo en el espacio." },
+      { etapa: "Nebulosa", icono: "🌌", texto: "En la nebulosa predomina el hidrógeno, el elemento más abundante del universo." },
+      { etapa: "Nebulosa", icono: "🌌", texto: "La gravedad hace que partes de la nebulosa se junten formando grumos." },
+      { etapa: "Nebulosa", icono: "🌌", texto: "Las nebulosas pueden ser el lugar de nacimiento de nuevas estrellas." },
+      { etapa: "Nebulosa", icono: "🌌", texto: "Algunas nebulosas brillan porque están cerca de estrellas calientes." },
+
+      { etapa: "Sol", icono: "☀️", texto: "Una estrella como el Sol obtiene su energía por fusión nuclear de hidrógeno en helio." },
+      { etapa: "Sol", icono: "☀️", texto: "La luz y el calor que recibimos en la Tierra vienen de este proceso de fusión." },
+      { etapa: "Sol", icono: "☀️", texto: "El Sol está en una etapa estable llamada secuencia principal." },
+      { etapa: "Sol", icono: "☀️", texto: "Las estrellas como el Sol tienen un equilibrio entre gravedad y presión del gas caliente." },
+      { etapa: "Sol", icono: "☀️", texto: "Una estrella como el Sol puede vivir miles de millones de años en esta etapa." },
+
+      { etapa: "Gigante", icono: "🔥", texto: "Cuando se acaba el hidrógeno en el centro, la estrella se expande y se vuelve gigante roja." },
+      { etapa: "Gigante", icono: "🔥", texto: "En esta etapa, el diámetro de la estrella aumenta muchísimo." },
+      { etapa: "Gigante", icono: "🔥", texto: "La superficie de la gigante roja es más fría y por eso brilla de color rojizo." },
+      { etapa: "Gigante", icono: "🔥", texto: "En su interior comienza la fusión de helio y otros elementos más pesados." },
+      { etapa: "Gigante", icono: "🔥", texto: "Nuestro Sol en unos 5.000 millones de años será una gigante roja." },
+
+      { etapa: "Planetaria", icono: "💫", texto: "Al final de la etapa de gigante roja, la estrella expulsa sus capas externas." },
+      { etapa: "Planetaria", icono: "💫", texto: "Ese gas expulsado forma una nube brillante llamada nebulosa planetaria." },
+      { etapa: "Planetaria", icono: "💫", texto: "A pesar del nombre, no tiene nada que ver con planetas." },
+      { etapa: "Planetaria", icono: "💫", texto: "Las nebulosas planetarias enriquecen el espacio con nuevos elementos químicos." },
+
+      { etapa: "Enana", icono: "❄️", texto: "Lo que queda del centro de la estrella es una enana blanca." },
+      { etapa: "Enana", icono: "❄️", texto: "Las enanas blancas son muy densas: una cucharadita de su materia pesa toneladas." },
+      { etapa: "Enana", icono: "❄️", texto: "No tienen fusión nuclear, brillan por el calor que les queda." },
+      { etapa: "Enana", icono: "❄️", texto: "Con el tiempo se enfrían y se vuelven más débiles." },
+      { etapa: "Enana", icono: "❄️", texto: "El destino final del Sol es convertirse en una enana blanca." }
+    ];
+
+    let disponibles = [...caracteristicas];
+    const total = caracteristicas.length;
+
+    const sol = document.getElementById("sol");
+    const salida = document.getElementById("caracteristica");
+    const iconoDiv = document.getElementById("icono");
+    const textoDiv = document.getElementById("texto");
+    const contador = document.getElementById("contador");
+    const resetBtn = document.getElementById("reset");
+
+    actualizarContador();
+
+    sol.addEventListener("click", () => {
+      if (disponibles.length > 0) {
+        const i = Math.floor(Math.random() * disponibles.length);
+        const { etapa, icono, texto } = disponibles.splice(i, 1)[0];
+
+        salida.className = etapa + " mostrar";
+        iconoDiv.textContent = icono;
+        textoDiv.textContent = texto;
+
+        actualizarContador();
+      } else {
+        iconoDiv.textContent = "✨";
+        textoDiv.textContent = "¡Ya descubriste todas las características!";
+        salida.className = "mostrar";
+        contador.textContent = "";
+        resetBtn.style.display = "inline-block";
+      }
+    });
+
+    function actualizarContador() {
+      contador.textContent = `Faltan ${disponibles.length} de ${total} características por descubrir.`;
+    }
+
+    function reiniciar() {
+      disponibles = [...caracteristicas];
+      salida.className = "";
+      iconoDiv.textContent = "";
+      textoDiv.textContent = "";
+      resetBtn.style.display = "none";
+      actualizarContador();
+    }
+  </script>
+</body>
+</html>
