@@ -1,178 +1,137 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <title>Evolución Estelar Interactiva</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      text-align: center;
-      background: linear-gradient(to bottom, #001f3f, #0074D9);
-      color: white;
-      margin: 0;
-      padding: 20px;
-    }
-    h2 {
-      margin-bottom: 5px;
-    }
-    #sol {
-      font-size: 90px;
-      cursor: pointer;
-      margin: 20px 0;
-      transition: transform 0.2s;
-    }
-    #sol:active {
-      transform: scale(1.2);
-    }
-    #caracteristica {
-      margin-top: 20px;
-      padding: 15px;
-      font-size: 18px;
-      border-radius: 12px;
-      min-height: 80px;
-      opacity: 0;
-      transform: scale(0.9);
-      transition: all 0.5s ease;
-    }
-    #caracteristica.mostrar {
-      opacity: 1;
-      transform: scale(1);
-    }
-    #icono {
-      font-size: 35px;
-      margin-bottom: 8px;
-    }
-    #texto {
-      margin-top: 5px;
-    }
-    #contador {
-      margin-top: 10px;
-      font-size: 16px;
-    }
-    #reset {
-      margin-top: 20px;
-      padding: 12px 20px;
-      font-size: 18px;
-      border: none;
-      border-radius: 8px;
-      background: orange;
-      color: black;
-      cursor: pointer;
-      display: none;
-    }
-
-    /* Colores por etapa */
-    .Nebulosa { background: rgba(138, 43, 226, 0.3); border: 2px solid violet; }
-    .Sol { background: rgba(255, 215, 0, 0.3); border: 2px solid gold; }
-    .Gigante { background: rgba(255, 69, 0, 0.3); border: 2px solid tomato; }
-    .Planetaria { background: rgba(0, 255, 127, 0.3); border: 2px solid lightgreen; }
-    .Enana { background: rgba(135, 206, 250, 0.3); border: 2px solid lightblue; }
-
-    /* Adaptación para celulares */
-    @media (max-width: 600px) {
-      #sol {
-        font-size: 70px;
-      }
-      #caracteristica {
-        font-size: 16px;
-        padding: 12px;
-      }
-      #reset {
-        font-size: 16px;
-        padding: 10px 16px;
-      }
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Energías Alternativas en Argentina - Simuladores</title>
+    <style>
+        /* CSS básico para la estructura y la navegación */
+        body { font-family: Arial, sans-serif; margin: 0; padding: 0; background-color: #f4f4f4; color: #333; }
+        header { background-color: #004d99; color: white; padding: 20px; text-align: center; }
+        .container { width: 90%; margin: 20px auto; }
+        .nav-buttons button { background-color: #007bff; color: white; border: none; padding: 10px 15px; margin: 5px; cursor: pointer; border-radius: 5px; transition: background-color 0.3s; }
+        .nav-buttons button:hover { background-color: #0056b3; }
+        .content-section { display: none; /* Ocultar todas las secciones por defecto */
+                          padding: 20px; border: 1px solid #ccc; background-color: white; margin-top: 15px; border-radius: 8px;}
+        .content-section.active { display: block; /* Mostrar la sección activa */ }
+        .simulator-area { background-color: #e9ecef; padding: 15px; margin-top: 15px; border-radius: 5px; min-height: 300px; }
+        .back-button { margin-bottom: 15px; background-color: #6c757d !important; }
+    </style>
 </head>
 <body>
-  <h2>Evolución Estelar</h2>
-  <p>Tocá el Sol para descubrir características</p>
 
-  <div id="sol">🌞</div>
+    <header>
+        <h1>Energías Alternativas en Argentina 🇦🇷</h1>
+    </header>
 
-  <div id="caracteristica">
-    <div id="icono"></div>
-    <div id="texto"></div>
-  </div>
+    <div class="container">
 
-  <div id="contador"></div>
-  <button id="reset" onclick="reiniciar()">Reiniciar</button>
+        <section id="home" class="content-section active">
+            <h2>🌍 Explora y Simula las Energías Renovables</h2>
+            <p>Selecciona una energía para ver su descripción y acceder a un simulador interactivo.</p>
+            
+            <div class="nav-buttons">
+                <button onclick="showSection('hidro');">💧 Energía Hidroeléctrica</button>
+                <button onclick="showSection('nuclear');">⚛️ Energía Nuclear</button>
+                <button onclick="showSection('fotovoltaica');">☀️ Energía Fotovoltaica</button>
+                <button onclick="showSection('eolica');">🌬️ Energía Eólica</button>
+                <button onclick="showSection('biocombustibles');">🌱 Biocombustibles</button>
+            </div>
+        </section>
 
-  <script>
-    const caracteristicas = [
-      { etapa: "Nebulosa", icono: "🌌", texto: "Una nebulosa es una nube gigante de gas y polvo en el espacio." },
-      { etapa: "Nebulosa", icono: "🌌", texto: "En la nebulosa predomina el hidrógeno, el elemento más abundante del universo." },
-      { etapa: "Nebulosa", icono: "🌌", texto: "La gravedad hace que partes de la nebulosa se junten formando grumos." },
-      { etapa: "Nebulosa", icono: "🌌", texto: "Las nebulosas pueden ser el lugar de nacimiento de nuevas estrellas." },
-      { etapa: "Nebulosa", icono: "🌌", texto: "Algunas nebulosas brillan porque están cerca de estrellas calientes." },
+        <section id="hidro" class="content-section">
+            <button class="back-button" onclick="showSection('home');">⬅️ Volver al Menú Principal</button>
+            <h2>💧 Energía Hidroeléctrica</h2>
+            
+            <h3>Descripción Breve</h3>
+            <p>La **Energía Hidroeléctrica** utiliza la fuerza del agua en movimiento, generalmente represada, para hacer girar turbinas conectadas a generadores. En Argentina, grandes represas como Yacyretá y Salto Grande son fundamentales para la matriz energética. Es una fuente renovable, pero su impacto ambiental en ecosistemas fluviales es significativo.</p>
 
-      { etapa: "Sol", icono: "☀️", texto: "Una estrella como el Sol obtiene su energía por fusión nuclear de hidrógeno en helio." },
-      { etapa: "Sol", icono: "☀️", texto: "La luz y el calor que recibimos en la Tierra vienen de este proceso de fusión." },
-      { etapa: "Sol", icono: "☀️", texto: "El Sol está en una etapa estable llamada secuencia principal." },
-      { etapa: "Sol", icono: "☀️", texto: "Las estrellas como el Sol tienen un equilibrio entre gravedad y presión del gas caliente." },
-      { etapa: "Sol", icono: "☀️", texto: "Una estrella como el Sol puede vivir miles de millones de años en esta etapa." },
+            <h3>Simulador Interactivo: Funcionamiento de una Central</h3>
+            <div class="simulator-area" id="simulador-hidro">
+                <p>Aquí se añadiría el **código JavaScript y HTML** para el simulador interactivo.</p>
+                <p>Ejemplo: Un deslizador que controle el flujo de agua y muestre cómo aumenta o disminuye la generación de energía.</p>
+                <p>_[Este contenido requiere programación en JavaScript, posiblemente usando bibliotecas como D3.js o Canvas/SVG.]_</p>
+                </div>
+        </section>
 
-      { etapa: "Gigante", icono: "🔥", texto: "Cuando se acaba el hidrógeno en el centro, la estrella se expande y se vuelve gigante roja." },
-      { etapa: "Gigante", icono: "🔥", texto: "En esta etapa, el diámetro de la estrella aumenta muchísimo." },
-      { etapa: "Gigante", icono: "🔥", texto: "La superficie de la gigante roja es más fría y por eso brilla de color rojizo." },
-      { etapa: "Gigante", icono: "🔥", texto: "En su interior comienza la fusión de helio y otros elementos más pesados." },
-      { etapa: "Gigante", icono: "🔥", texto: "Nuestro Sol en unos 5.000 millones de años será una gigante roja." },
+        <section id="nuclear" class="content-section">
+            <button class="back-button" onclick="showSection('home');">⬅️ Volver al Menú Principal</button>
+            <h2>⚛️ Energía Nuclear</h2>
+            
+            <h3>Descripción Breve</h3>
+            <p>La **Energía Nuclear** se genera mediante la fisión de átomos de uranio en reactores controlados. En Argentina, el sector nuclear tiene una larga trayectoria con centrales como Atucha I, Atucha II y Embalse. Aunque no es renovable, se considera una fuente de baja emisión de carbono y de base, crucial para la estabilidad del suministro eléctrico.</p>
 
-      { etapa: "Planetaria", icono: "💫", texto: "Al final de la etapa de gigante roja, la estrella expulsa sus capas externas." },
-      { etapa: "Planetaria", icono: "💫", texto: "Ese gas expulsado forma una nube brillante llamada nebulosa planetaria." },
-      { etapa: "Planetaria", icono: "💫", texto: "A pesar del nombre, no tiene nada que ver con planetas." },
-      { etapa: "Planetaria", icono: "💫", texto: "Las nebulosas planetarias enriquecen el espacio con nuevos elementos químicos." },
+            <h3>Simulador Interactivo: Reacción en Cadena Controlada</h3>
+            <div class="simulator-area" id="simulador-nuclear">
+                <p>Aquí se añadiría el **código JavaScript y HTML** para el simulador interactivo.</p>
+                <p>Ejemplo: Un modelo simplificado donde el usuario puede ajustar las barras de control para mantener la reacción de fisión estable.</p>
+                <p>_[Este contenido requiere programación en JavaScript, posiblemente usando bibliotecas como D3.js o Canvas/SVG.]_</p>
+                </div>
+        </section>
 
-      { etapa: "Enana", icono: "❄️", texto: "Lo que queda del centro de la estrella es una enana blanca." },
-      { etapa: "Enana", icono: "❄️", texto: "Las enanas blancas son muy densas: una cucharadita de su materia pesa toneladas." },
-      { etapa: "Enana", icono: "❄️", texto: "No tienen fusión nuclear, brillan por el calor que les queda." },
-      { etapa: "Enana", icono: "❄️", texto: "Con el tiempo se enfrían y se vuelven más débiles." },
-      { etapa: "Enana", icono: "❄️", texto: "El destino final del Sol es convertirse en una enana blanca." }
-    ];
+        <section id="fotovoltaica" class="content-section">
+            <button class="back-button" onclick="showSection('home');">⬅️ Volver al Menú Principal</button>
+            <h2>☀️ Energía Fotovoltaica</h2>
+            
+            <h3>Descripción Breve</h3>
+            <p>La **Energía Fotovoltaica** convierte directamente la luz solar en electricidad usando paneles compuestos de células de silicio (el efecto fotovoltaico). Argentina tiene un gran potencial solar, especialmente en el Noroeste. Su implementación es clave en proyectos como el Parque Solar Cauchari en Jujuy.</p>
 
-    let disponibles = [...caracteristicas];
-    const total = caracteristicas.length;
+            <h3>Simulador Interactivo: Producción vs. Ángulo y Nube</h3>
+            <div class="simulator-area" id="simulador-fotovoltaica">
+                <p>Aquí se añadiría el **código JavaScript y HTML** para el simulador interactivo.</p>
+                <p>Ejemplo: El usuario ajusta el ángulo del panel o simula la cobertura de nubes para ver cómo afecta la potencia de salida (watts).</p>
+                <p>_[Este contenido requiere programación en JavaScript.]_</p>
+                </div>
+        </section>
 
-    const sol = document.getElementById("sol");
-    const salida = document.getElementById("caracteristica");
-    const iconoDiv = document.getElementById("icono");
-    const textoDiv = document.getElementById("texto");
-    const contador = document.getElementById("contador");
-    const resetBtn = document.getElementById("reset");
+        <section id="eolica" class="content-section">
+            <button class="back-button" onclick="showSection('home');">⬅️ Volver al Menú Principal</button>
+            <h2>🌬️ Energía Eólica</h2>
+            
+            <h3>Descripción Breve</h3>
+            <p>La **Energía Eólica** utiliza la fuerza del viento para mover las palas de aerogeneradores, los cuales están conectados a un generador eléctrico. La Patagonia Argentina es una de las regiones con mayor recurso eólico del mundo, lo que la convierte en un pilar para el desarrollo de esta fuente renovable en el país.</p>
 
-    actualizarContador();
+            <h3>Simulador Interactivo: Potencia vs. Velocidad del Viento</h3>
+            <div class="simulator-area" id="simulador-eolica">
+                <p>Aquí se añadiría el **código JavaScript y HTML** para el simulador interactivo.</p>
+                <p>Ejemplo: Un medidor de velocidad del viento (simulado) que muestra cómo la potencia generada aumenta (hasta el punto de corte) o disminuye.</p>
+                <p>_[Este contenido requiere programación en JavaScript.]_</p>
+                </div>
+        </section>
 
-    sol.addEventListener("click", () => {
-      if (disponibles.length > 0) {
-        const i = Math.floor(Math.random() * disponibles.length);
-        const { etapa, icono, texto } = disponibles.splice(i, 1)[0];
+        <section id="biocombustibles" class="content-section">
+            <button class="back-button" onclick="showSection('home');">⬅️ Volver al Menú Principal</button>
+            <h2>🌱 Biocombustibles</h2>
+            
+            <h3>Descripción Breve</h3>
+            <p>Los **Biocombustibles** (principalmente Biodiésel y Bioetanol) son combustibles líquidos derivados de materia orgánica vegetal o animal (biomasa), como la soja, el maíz o la caña de azúcar. Argentina es un productor y exportador importante de Biodiésel, utilizándolo para reducir el consumo de combustibles fósiles en el transporte y la generación de energía.</p>
 
-        salida.className = etapa + " mostrar";
-        iconoDiv.textContent = icono;
-        textoDiv.textContent = texto;
+            <h3>Simulador Interactivo: Proceso de Producción Simplificado</h3>
+            <div class="simulator-area" id="simulador-biocombustibles">
+                <p>Aquí se añadiría el **código JavaScript y HTML** para el simulador interactivo.</p>
+                <p>Ejemplo: Una secuencia de pasos (recolección de biomasa, fermentación/transesterificación) donde el usuario puede activar cada etapa y ver el "resultado" (producción de biocombustible).</p>
+                <p>_[Este contenido requiere programación en JavaScript.]_</p>
+                </div>
+        </section>
+        
+    </div>
 
-        actualizarContador();
-      } else {
-        iconoDiv.textContent = "✨";
-        textoDiv.textContent = "¡Ya descubriste todas las características!";
-        salida.className = "mostrar";
-        contador.textContent = "";
-        resetBtn.style.display = "inline-block";
-      }
-    });
+    <script>
+        // Función JavaScript para manejar la navegación entre secciones
+        function showSection(sectionId) {
+            // 1. Ocultar todas las secciones
+            var sections = document.querySelectorAll('.content-section');
+            sections.forEach(function(section) {
+                section.classList.remove('active');
+            });
 
-    function actualizarContador() {
-      contador.textContent = `Faltan ${disponibles.length} de ${total} características por descubrir.`;
-    }
+            // 2. Mostrar la sección deseada
+            var activeSection = document.getElementById(sectionId);
+            if (activeSection) {
+                activeSection.classList.add('active');
+            }
+        }
+    </script>
 
-    function reiniciar() {
-      disponibles = [...caracteristicas];
-      salida.className = "";
-      iconoDiv.textContent = "";
-      textoDiv.textContent = "";
-      resetBtn.style.display = "none";
-      actualizarContador();
-    }
-  </script>
 </body>
 </html>
